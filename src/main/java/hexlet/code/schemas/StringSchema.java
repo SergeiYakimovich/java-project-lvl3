@@ -1,42 +1,38 @@
 package hexlet.code.schemas;
 
-public final class StringSchema {
+public class StringSchema extends BaseSchema {
+    public static final int VALIDATION_MIN_LENGTH = 3;
+    public static final int VALIDATION_CONTAINS = 4;
     private int length;
     private String subStr;
 
-    private ValidationTypes validationType = ValidationTypes.turnedOff;
-
-    public enum ValidationTypes {
-        turnedOff,
-        required,
-        minLength,
-        contains;
-    }
-    public boolean isValid(String str) {
-        switch (this.validationType) {
-            case turnedOff:
+    @Override
+    public final boolean isValid(Object object) {
+        if (!(object instanceof String) && object != null) {
+            return false;
+        }
+        String str = (String) object;
+        switch (getValidationType()) {
+            case VALIDATION_TURNED_OFF:
                 return true;
-            case required:
+            case VALIDATION_REQUIRED:
                 return str != null && str.length() != 0;
-            case minLength:
+            case VALIDATION_MIN_LENGTH:
                 return str != null && str.length() >= this.length;
-            case contains:
+            case VALIDATION_CONTAINS:
                 return str != null && str.contains(this.subStr);
             default:
                 return true;
         }
     }
 
-    public void required() {
-        this.validationType = ValidationTypes.required;
-    }
-
-    public void contains(String subStrValue) {
-        this.validationType = ValidationTypes.contains;
+    public final void contains(String subStrValue) {
+        setValidationType(VALIDATION_CONTAINS);
         this.subStr = subStrValue;
     }
-    public void minLength(int lengthValue) {
-        this.validationType = ValidationTypes.minLength;
+
+    public final void minLength(int lengthValue) {
+        setValidationType(VALIDATION_MIN_LENGTH);
         this.length = lengthValue;
     }
 

@@ -2,12 +2,16 @@ package hexlet.code;
 
 import org.junit.jupiter.api.Test;
 import hexlet.code.schemas.StringSchema;
+import hexlet.code.schemas.NumberSchema;
 //import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 
 //import static org.junit.platform.engine.TestTag.isValid;
 
 public class TestValidator {
+    public static final int TEN = 10;
+    public static final int MINUS_TEN = -10;
+    public static final int FIVE = 5;
 
     @Test
     public void testStringSchema() {
@@ -37,6 +41,30 @@ public class TestValidator {
         assertThat(schema.isValid("h")).isEqualTo(false);
         assertThat(schema.isValid(null)).isEqualTo(false);
         assertThat(schema.isValid("")).isEqualTo(false);
+
+    }
+
+    @Test
+    public void testNumberSchema() {
+        Validator v = new Validator();
+        NumberSchema schema = v.number();
+
+        assertThat(schema.isValid(null)).isEqualTo(true);
+
+        schema.required();
+        assertThat(schema.isValid(null)).isEqualTo(false);
+        assertThat(schema.isValid(TEN)).isEqualTo(true);
+        assertThat(schema.isValid("5")).isEqualTo(false);
+
+        schema.positive();
+        assertThat(schema.isValid(TEN)).isEqualTo(true);
+        assertThat(schema.isValid(MINUS_TEN)).isEqualTo(false);
+
+        schema.range(FIVE, TEN);
+        assertThat(schema.isValid(FIVE)).isEqualTo(true);
+        assertThat(schema.isValid(TEN)).isEqualTo(true);
+        assertThat(schema.isValid(FIVE - 1)).isEqualTo(false);
+        assertThat(schema.isValid(TEN + 1)).isEqualTo(false);
 
     }
 
