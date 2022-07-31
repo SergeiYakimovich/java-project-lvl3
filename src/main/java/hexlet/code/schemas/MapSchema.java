@@ -4,7 +4,10 @@ import java.util.Map;
 
 public class MapSchema extends BaseSchema {
     public static final int VALIDATION_SIZE = 7;
+    public static final int VALIDATION_SHAPE = 8;
+
     private int size;
+    private Map<String, BaseSchema> map;
 
     @Override
     public final boolean isValid(Object object) {
@@ -19,6 +22,17 @@ public class MapSchema extends BaseSchema {
                 return data != null;
             case VALIDATION_SIZE:
                 return data != null && data.size() == this.size;
+            case VALIDATION_SHAPE:
+                if (data == null) {
+                    return false;
+                }
+                for (Map.Entry<String, BaseSchema> item: map.entrySet()) {
+                    String key = item.getKey();
+                    if (data.containsKey(key) && !(item.getValue().isValid(data.get(key)))) {
+                        return false;
+                    }
+                }
+                return true;
             default:
                 return true;
         }
@@ -29,5 +43,8 @@ public class MapSchema extends BaseSchema {
         this.size = sizeValue;
     }
 
-
+    public final void shape(Map<String, BaseSchema> mapValue) {
+        setValidationType(VALIDATION_SHAPE);
+        this.map = mapValue;
+    }
 }
