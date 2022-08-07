@@ -38,14 +38,16 @@ public class MapSchema extends BaseSchema {
         }
     }
 
-    public final void sizeof(int sizeValue) {
+    public final MapSchema sizeof(int sizeValue) {
         setValidationType(VALIDATION_SIZE);
         this.size = sizeValue;
+        return this;
     }
 
-    public final void shape(Map<String, BaseSchema> mapValue) {
+    public final MapSchema shape(Map<String, BaseSchema> mapValue) {
         setValidationType(VALIDATION_SHAPE);
         this.map = mapValue;
+        return this;
     }
 
 }

@@ -26,14 +26,16 @@ public class StringSchema extends BaseSchema {
         }
     }
 
-    public final void contains(String subStrValue) {
+    public final StringSchema contains(String subStrValue) {
         setValidationType(VALIDATION_CONTAINS);
         this.subStr = subStrValue;
+        return this;
     }
 
-    public final void minLength(int lengthValue) {
+    public final StringSchema minLength(int lengthValue) {
         setValidationType(VALIDATION_MIN_LENGTH);
         this.length = lengthValue;
+        return this;
     }
 
 }

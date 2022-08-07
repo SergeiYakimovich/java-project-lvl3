@@ -26,14 +26,16 @@ public class NumberSchema extends BaseSchema {
         }
     }
 
-    public final void positive() {
+    public final NumberSchema positive() {
         setValidationType(VALIDATION_POSITIVE);
+        return this;
     }
 
-    public final void range(int minValue, int maxValue) {
+    public final NumberSchema range(int minValue, int maxValue) {
         setValidationType(VALIDATION_RANGE);
         this.min = minValue;
         this.max = maxValue;
+        return this;
     }
 
 }

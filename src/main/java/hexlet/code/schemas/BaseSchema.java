@@ -7,8 +7,9 @@ public abstract class BaseSchema {
 
     public abstract boolean isValid(Object object);
 
-    public final void required() {
+    public final BaseSchema required() {
         validationType = VALIDATION_REQUIRED;
+        return this;
     }
 
     public final int getValidationType() {
