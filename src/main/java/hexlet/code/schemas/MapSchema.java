@@ -50,4 +50,10 @@ public class MapSchema extends BaseSchema {
         return this;
     }
 
+    @Override
+    public final MapSchema required() {
+        setValidationType(VALIDATION_REQUIRED);
+        return this;
+    }
+
 }

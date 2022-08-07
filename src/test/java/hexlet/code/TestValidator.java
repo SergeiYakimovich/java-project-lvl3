@@ -56,8 +56,6 @@ public class TestValidator {
         assertThat(schema.isValid(TEN)).isEqualTo(true);
         assertThat(schema.isValid("5")).isEqualTo(false);
 
-        //assertThat(schema.positive().isValid(null)).isTrue();
-
         schema.positive();
         assertThat(schema.isValid(TEN)).isEqualTo(true);
         assertThat(schema.isValid(-TEN)).isEqualTo(false);

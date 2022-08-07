@@ -26,6 +26,11 @@ public class StringSchema extends BaseSchema {
         }
     }
 
+    @Override
+    public final StringSchema required() {
+        setValidationType(VALIDATION_REQUIRED);
+        return this;
+    }
     public final StringSchema contains(String subStrValue) {
         setValidationType(VALIDATION_CONTAINS);
         this.subStr = subStrValue;

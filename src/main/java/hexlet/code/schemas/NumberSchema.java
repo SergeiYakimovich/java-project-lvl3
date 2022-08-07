@@ -38,4 +38,10 @@ public class NumberSchema extends BaseSchema {
         return this;
     }
 
+    @Override
+    public final NumberSchema required() {
+        setValidationType(VALIDATION_REQUIRED);
+        return this;
+    }
+
 }
