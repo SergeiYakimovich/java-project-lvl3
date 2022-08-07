@@ -47,4 +47,5 @@ public class MapSchema extends BaseSchema {
         setValidationType(VALIDATION_SHAPE);
         this.map = mapValue;
     }
+
 }
