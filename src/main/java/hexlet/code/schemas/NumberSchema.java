@@ -5,6 +5,7 @@ public class NumberSchema extends BaseSchema {
     public static final int VALIDATION_RANGE = 6;
     private int min;
     private int max;
+    private boolean isPositive = false;
 
     @Override
     public final boolean isValid(Object object) {
@@ -24,6 +25,9 @@ public class NumberSchema extends BaseSchema {
             case VALIDATION_POSITIVE:
                 return number > 0;
             case VALIDATION_RANGE:
+                if (isPositive && number < 0) {
+                    return false;
+                }
                 return number >= min && number <= max;
             default:
                 return true;
@@ -32,6 +36,7 @@ public class NumberSchema extends BaseSchema {
 
     public final NumberSchema positive() {
         setValidationType(VALIDATION_POSITIVE);
+        isPositive = true;
         return this;
     }
 
