@@ -8,14 +8,14 @@ public class NumberSchema extends BaseSchema {
 
     @Override
     public final boolean isValid(Object object) {
-        if (getValidationType() == VALIDATION_TURNED_OFF) {
-            return true;
-        }
         if (object == null) {
             return isRequired() ? false : true;
         }
         if (!(object instanceof Integer)) {
             return false;
+        }
+        if (getValidationType() == VALIDATION_TURNED_OFF) {
+            return true;
         }
         int number = (int) object;
         switch (getValidationType()) {
