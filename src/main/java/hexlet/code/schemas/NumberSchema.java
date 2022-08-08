@@ -8,19 +8,23 @@ public class NumberSchema extends BaseSchema {
 
     @Override
     public final boolean isValid(Object object) {
-        if (!(object instanceof Integer) && object != null) {
+        if (getValidationType() == VALIDATION_TURNED_OFF) {
+            return true;
+        }
+        if (object == null) {
+            return isRequired() ? false : true;
+        }
+        if (!(object instanceof Integer)) {
             return false;
         }
-        Integer number = (Integer) object;
+        int number = (int) object;
         switch (getValidationType()) {
-            case VALIDATION_TURNED_OFF:
-                return true;
             case VALIDATION_REQUIRED:
-                return number != null;
+                return true;
             case VALIDATION_POSITIVE:
-                return number != null && number > 0;
+                return number > 0;
             case VALIDATION_RANGE:
-                return number != null && number >= min && number <= max;
+                return number >= min && number <= max;
             default:
                 return true;
         }
@@ -41,6 +45,7 @@ public class NumberSchema extends BaseSchema {
     @Override
     public final NumberSchema required() {
         setValidationType(VALIDATION_REQUIRED);
+        setRequired(true);
         return this;
     }
 

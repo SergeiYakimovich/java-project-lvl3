@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import static org.assertj.core.api.Assertions.assertThat;
 
-public class TestValidator {
+public class ValidatorTest {
     public static final int TEN = 10;
     public static final int FIVE = 5;
     public static final int HUNDRED = 100;
@@ -110,7 +110,7 @@ public class TestValidator {
         Map<String, Object> human2 = new HashMap<>();
         human2.put("name", "Maya");
         human2.put("age", null);
-        assertThat(schema.isValid(human2)).isEqualTo(false);
+        assertThat(schema.isValid(human2)).isEqualTo(true);
 
         Map<String, Object> human3 = new HashMap<>();
         human3.put("name", "");
