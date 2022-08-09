@@ -1,57 +1,61 @@
 package hexlet.code.schemas;
 
 public class NumberSchema extends BaseSchema {
-    public static final int VALIDATION_POSITIVE = 5;
-    public static final int VALIDATION_RANGE = 6;
+    private boolean isPositiveOn = false;
+    private boolean isRangeOn = false;
     private int min;
     private int max;
-    private boolean isPositive = false;
 
     @Override
     public final boolean isValid(Object object) {
+        if (!isValidationOn()) {
+            return true;
+        }
         if (object == null) {
-            return isRequired() ? false : true;
+            return isRequiredOn() ? false : true;
         }
         if (!(object instanceof Integer)) {
             return false;
         }
-        if (getValidationType() == VALIDATION_TURNED_OFF) {
-            return true;
-        }
         int number = (int) object;
-        switch (getValidationType()) {
-            case VALIDATION_REQUIRED:
-                return true;
-            case VALIDATION_POSITIVE:
-                return number > 0;
-            case VALIDATION_RANGE:
-                if (isPositive && number < 0) {
-                    return false;
-                }
-                return number >= min && number <= max;
-            default:
-                return true;
-        }
+        return rangeValidation(number) && positiveValidation(number);
     }
 
     public final NumberSchema positive() {
-        setValidationType(VALIDATION_POSITIVE);
-        isPositive = true;
+        setValidationOn(true);
+        isPositiveOn = true;
         return this;
     }
 
     public final NumberSchema range(int minValue, int maxValue) {
-        setValidationType(VALIDATION_RANGE);
-        this.min = minValue;
-        this.max = maxValue;
+        setValidationOn(true);
+        isRangeOn = true;
+        min = minValue;
+        max = maxValue;
         return this;
     }
 
     @Override
     public final NumberSchema required() {
-        setValidationType(VALIDATION_REQUIRED);
-        setRequired(true);
+        setValidationOn(true);
+        setRequiredOn(true);
         return this;
+    }
+
+    private boolean rangeValidation(int number) {
+        if (isRangeOn) {
+            return number >= min && number <= max;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean positiveValidation(int number) {
+        if (isPositiveOn) {
+            return number > 0;
+        } else {
+            return true;
+        }
     }
 
 }

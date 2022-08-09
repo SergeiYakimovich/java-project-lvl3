@@ -1,46 +1,68 @@
 package hexlet.code.schemas;
 
 public class StringSchema extends BaseSchema {
-    public static final int VALIDATION_MIN_LENGTH = 3;
-    public static final int VALIDATION_CONTAINS = 4;
+    private boolean isMinLengthOn = false;
+    private boolean isContainsOn = false;
     private int length;
     private String subStr;
 
     @Override
     public final boolean isValid(Object object) {
-        if (!(object instanceof String) && object != null) {
+        if (!isValidationOn()) {
+            return true;
+        }
+        if (object == null) {
+            return isRequiredOn() ? false : true;
+        }
+        if (!(object instanceof String)) {
             return false;
         }
         String str = (String) object;
-        switch (getValidationType()) {
-            case VALIDATION_TURNED_OFF:
-                return true;
-            case VALIDATION_REQUIRED:
-                return str != null && str.length() != 0;
-            case VALIDATION_MIN_LENGTH:
-                return str != null && str.length() >= this.length;
-            case VALIDATION_CONTAINS:
-                return str != null && str.contains(this.subStr);
-            default:
-                return true;
-        }
+        return requiredValidation(str) && containsValidation(str) && minLengthValidation(str);
     }
 
     @Override
     public final StringSchema required() {
-        setValidationType(VALIDATION_REQUIRED);
+        setValidationOn(true);
+        setRequiredOn(true);
         return this;
     }
     public final StringSchema contains(String subStrValue) {
-        setValidationType(VALIDATION_CONTAINS);
-        this.subStr = subStrValue;
+        setValidationOn(true);
+        isContainsOn = true;
+        subStr = subStrValue;
         return this;
     }
 
     public final StringSchema minLength(int lengthValue) {
-        setValidationType(VALIDATION_MIN_LENGTH);
+        setValidationOn(true);
+        isMinLengthOn = true;
         this.length = lengthValue;
         return this;
+    }
+
+    private boolean requiredValidation(String str) {
+        if (isRequiredOn()) {
+            return str.length() != 0;
+        } else {
+            return true;
+        }
+    }
+
+    private boolean containsValidation(String str) {
+        if (isContainsOn) {
+            return str.contains(subStr);
+        } else {
+            return true;
+        }
+    }
+
+    private boolean minLengthValidation(String str) {
+        if (isMinLengthOn) {
+            return str.length() >= length;
+        } else {
+            return true;
+        }
     }
 
 }

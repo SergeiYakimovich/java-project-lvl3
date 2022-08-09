@@ -28,18 +28,18 @@ public class ValidatorTest {
         assertThat(schema.isValid(null)).isEqualTo(false);
         assertThat(schema.isValid("")).isEqualTo(false);
 
+        schema.minLength(2);
+        assertThat(schema.isValid("what does the fox say")).isEqualTo(true);
+        assertThat(schema.isValid("h")).isEqualTo(false);
+        assertThat(schema.isValid(null)).isEqualTo(false);
+        assertThat(schema.isValid("")).isEqualTo(false);
+
         schema.contains("wh");
         assertThat(schema.isValid("what does the fox say")).isEqualTo(true);
         schema.contains("what");
         assertThat(schema.isValid("what does the fox say")).isEqualTo(true);
         schema.contains("whatthe");
         assertThat(schema.isValid("what does the fox say")).isEqualTo(false);
-        assertThat(schema.isValid(null)).isEqualTo(false);
-        assertThat(schema.isValid("")).isEqualTo(false);
-
-        schema.minLength(2);
-        assertThat(schema.isValid("what does the fox say")).isEqualTo(true);
-        assertThat(schema.isValid("h")).isEqualTo(false);
         assertThat(schema.isValid(null)).isEqualTo(false);
         assertThat(schema.isValid("")).isEqualTo(false);
     }
