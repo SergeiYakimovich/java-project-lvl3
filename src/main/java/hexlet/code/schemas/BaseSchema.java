@@ -1,27 +1,35 @@
 package hexlet.code.schemas;
 
-public abstract class BaseSchema {
-    private boolean isValidationOn = false;
-    private boolean isRequiredOn = false;
+import hexlet.code.validations.Validation;
+import java.util.ArrayList;
+import java.util.List;
 
-    public abstract boolean isValid(Object object);
+public abstract class BaseSchema {
+    private boolean isRequiredOn = false;
+    private List<Validation> validationList = new ArrayList<>();
+
+    public final boolean isValid(Object object) {
+        if (validationList.size() == 0) {
+            return true;
+        }
+        if (object == null) {
+            return isRequiredOn ? false : true;
+        }
+        for (Validation item : validationList) {
+            if (!item.makeValidation(object)) {
+                return false;
+            }
+        }
+        return true;
+    }
 
     public abstract BaseSchema required();
 
-    public final boolean isRequiredOn() {
-        return isRequiredOn;
+    protected final void setValidationList(Validation validationValue) {
+        validationList.add(validationValue);
     }
-
-    public final void setRequiredOn(boolean requiredValue) {
+    protected final void setRequiredOn(boolean requiredValue) {
         isRequiredOn = requiredValue;
-    }
-
-    public final boolean isValidationOn() {
-        return isValidationOn;
-    }
-
-    public final void setValidationOn(boolean validationValue) {
-        isValidationOn = validationValue;
     }
 
 }
