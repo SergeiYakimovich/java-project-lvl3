@@ -1,24 +1,27 @@
 package hexlet.code.schemas;
 
-import hexlet.code.validations.PositiveValidation;
-import hexlet.code.validations.RangeValidation;
-import hexlet.code.validations.RequiredValidation;
+import hexlet.code.Validation;
+
+import java.util.function.Predicate;
 
 public class NumberSchema extends BaseSchema {
 
     public final NumberSchema positive() {
-        setValidationList(new PositiveValidation());
+        Predicate<Integer> func = x -> x > 0;
+        setValidationList(new Validation(func, Integer.class));
         return this;
     }
 
-    public final NumberSchema range(int minValue, int maxValue) {
-        setValidationList(new RangeValidation(minValue, maxValue));
+    public final NumberSchema range(int min, int max) {
+        Predicate<Integer> func = x -> x >= min && x <= max;
+        setValidationList(new Validation(func, Integer.class));
         return this;
     }
 
     @Override
     public final NumberSchema required() {
-        setValidationList(new RequiredValidation(Integer.class));
+        Predicate<Integer> func = x -> true;
+        setValidationList(new Validation(func, Integer.class));
         setRequiredOn(true);
         return this;
     }

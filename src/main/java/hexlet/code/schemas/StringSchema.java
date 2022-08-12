@@ -1,25 +1,28 @@
 package hexlet.code.schemas;
 
-import hexlet.code.validations.ContainsValidation;
-import hexlet.code.validations.MinLengthValidation;
-import hexlet.code.validations.RequiredValidation;
+import hexlet.code.Validation;
+
+import java.util.function.Predicate;
 
 public class StringSchema extends BaseSchema {
 
     @Override
     public final StringSchema required() {
-        setValidationList(new RequiredValidation(String.class));
+        Predicate<String> func = x -> x.length() != 0;
+        setValidationList(new Validation(func, String.class));
         setRequiredOn(true);
         return this;
     }
 
-    public final StringSchema contains(String subStrValue) {
-        setValidationList(new ContainsValidation(subStrValue));
+    public final StringSchema contains(String subStr) {
+        Predicate<String> func = x -> x.contains(subStr);
+        setValidationList(new Validation(func, String.class));
         return this;
     }
 
-    public final StringSchema minLength(int lengthValue) {
-        setValidationList(new MinLengthValidation(lengthValue));
+    public final StringSchema minLength(int length) {
+        Predicate<String> func = x -> x.length() >= length;
+        setValidationList(new Validation(func, String.class));
         return this;
     }
 

@@ -1,6 +1,6 @@
 package hexlet.code.schemas;
 
-import hexlet.code.validations.Validation;
+import hexlet.code.Validation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,8 +12,8 @@ public abstract class BaseSchema {
         if (validationList.size() == 0) {
             return true;
         }
-        if (object == null) {
-            return isRequiredOn ? false : true;
+        if (!isRequiredOn && object == null) {
+            return true;
         }
         for (Validation item : validationList) {
             if (!item.makeValidation(object)) {
