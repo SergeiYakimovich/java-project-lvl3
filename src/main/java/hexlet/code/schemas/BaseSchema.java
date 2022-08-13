@@ -6,14 +6,18 @@ import java.util.List;
 
 public abstract class BaseSchema {
     private boolean isRequiredOn = false;
+    private Class requiredClass;
     private List<Validation> validationList = new ArrayList<>();
 
     public final boolean isValid(Object object) {
-        if (validationList.size() == 0) {
+        if (validationList.size() == 0 && !isRequiredOn) {
             return true;
         }
-        if (!isRequiredOn && object == null) {
-            return true;
+        if (object == null) {
+            return isRequiredOn ? false : true;
+        }
+        if (!requiredClass.isInstance(object)) {
+            return false;
         }
         for (Validation item : validationList) {
             if (!item.makeValidation(object)) {
@@ -30,6 +34,10 @@ public abstract class BaseSchema {
     }
     protected final void setRequiredOn(boolean requiredValue) {
         isRequiredOn = requiredValue;
+    }
+
+    protected final void setRequiredClass(Class requiredClassValue) {
+        requiredClass = requiredClassValue;
     }
 
 }

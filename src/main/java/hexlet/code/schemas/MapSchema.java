@@ -8,13 +8,15 @@ public class MapSchema extends BaseSchema {
 
     public final MapSchema sizeof(int size) {
         Predicate<Map> func = x -> x.size() == size;
-        setValidationList(new Validation(func, Map.class));
+        setValidationList(new Validation(func));
+        setRequiredClass(Map.class);
         return this;
     }
 
     public final MapSchema shape(Map<String, BaseSchema> map) {
         Predicate<Map> func = x -> shapeValidator(x, map);
-        setValidationList(new Validation(func, Map.class));
+        setValidationList(new Validation(func));
+        setRequiredClass(Map.class);
         return this;
     }
 
@@ -30,8 +32,7 @@ public class MapSchema extends BaseSchema {
 
     @Override
     public final MapSchema required() {
-        Predicate<Map> func = x -> true;
-        setValidationList(new Validation(func, Map.class));
+        setRequiredClass(Map.class);
         setRequiredOn(true);
         return this;
     }
