@@ -1,13 +1,13 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Validation;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public abstract class BaseSchema {
     private boolean isRequiredOn = false;
     private Class requiredClass;
-    private List<Validation> validationList = new ArrayList<>();
+    private List<Predicate> validationList = new ArrayList<>();
 
     public final boolean isValid(Object object) {
         if (validationList.size() == 0 && !isRequiredOn) {
@@ -19,8 +19,8 @@ public abstract class BaseSchema {
         if (!requiredClass.isInstance(object)) {
             return false;
         }
-        for (Validation item : validationList) {
-            if (!item.makeValidation(object)) {
+        for (Predicate item : validationList) {
+            if (!item.test(object)) {
                 return false;
             }
         }
@@ -33,15 +33,11 @@ public abstract class BaseSchema {
         requiredClass = requiredClassValue;
     }
 
-    protected final void addValidationList(Validation validationValue) {
+    protected final void addValidationList(Predicate validationValue) {
         validationList.add(validationValue);
     }
     protected final void setRequiredOn(boolean requiredValue) {
         isRequiredOn = requiredValue;
     }
-
-//    protected final void setRequiredClass(Class requiredClassValue) {
-//        requiredClass = requiredClassValue;
-//    }
 
 }
