@@ -6,7 +6,7 @@ import java.util.List;
 
 public abstract class BaseSchema {
     private boolean isRequiredOn = false;
-    private Class requiredClass;
+    public Class requiredClass;
     private List<Validation> validationList = new ArrayList<>();
 
     public final boolean isValid(Object object) {
@@ -29,15 +29,19 @@ public abstract class BaseSchema {
 
     public abstract BaseSchema required();
 
-    protected final void setValidationList(Validation validationValue) {
+//    public BaseSchema(Class requiredClassValue) {
+//        requiredClass = requiredClassValue;
+//    }
+
+    protected final void addValidationList(Validation validationValue) {
         validationList.add(validationValue);
     }
     protected final void setRequiredOn(boolean requiredValue) {
         isRequiredOn = requiredValue;
     }
 
-    protected final void setRequiredClass(Class requiredClassValue) {
-        requiredClass = requiredClassValue;
-    }
+//    protected final void setRequiredClass(Class requiredClassValue) {
+//        requiredClass = requiredClassValue;
+//    }
 
 }
