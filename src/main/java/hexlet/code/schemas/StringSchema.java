@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class StringSchema extends BaseSchema {
 
     public StringSchema(Class requiredClassValue) {
-        requiredClass = requiredClassValue;
+        super(requiredClassValue);
     }
     @Override
     public final StringSchema required() {

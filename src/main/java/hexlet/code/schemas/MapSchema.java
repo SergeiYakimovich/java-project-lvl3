@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class MapSchema extends BaseSchema {
 
     public MapSchema(Class requiredClassValue) {
-        requiredClass = requiredClassValue;
+        super(requiredClassValue);
     }
     public final MapSchema sizeof(int size) {
         Predicate<Map> func = x -> x.size() == size;
