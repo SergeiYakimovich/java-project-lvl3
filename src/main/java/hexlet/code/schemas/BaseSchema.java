@@ -9,6 +9,10 @@ public abstract class BaseSchema {
     private Class requiredClass;
     private List<Predicate> validationList = new ArrayList<>();
 
+    public BaseSchema(Class requiredClassValue) {
+        requiredClass = requiredClassValue;
+    }
+
     public final boolean isValid(Object object) {
         if (validationList.size() == 0 && !isRequiredOn) {
             return true;
@@ -29,13 +33,10 @@ public abstract class BaseSchema {
 
     public abstract BaseSchema required();
 
-    public BaseSchema(Class requiredClassValue) {
-        requiredClass = requiredClassValue;
-    }
-
     protected final void addValidationList(Predicate validationValue) {
         validationList.add(validationValue);
     }
+
     protected final void setRequiredOn(boolean requiredValue) {
         isRequiredOn = requiredValue;
     }
